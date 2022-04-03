@@ -2,13 +2,12 @@ package com.krupnov.sbertroyka_java.screens.films;
 
 import android.app.Application;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
-import com.krupnov.sbertroyka_java.MainActivity;
 import com.krupnov.sbertroyka_java.api.ApiFactory;
 import com.krupnov.sbertroyka_java.api.ApiService;
 import com.krupnov.sbertroyka_java.data.AppFilmDatabase;
@@ -28,15 +27,25 @@ public class FilmViewModel extends AndroidViewModel {
     private static AppFilmDatabase db;
     private LiveData<List<Film>> films;
     private CompositeDisposable compositeDisposable;
+    private MutableLiveData<Throwable> errors;
 
     public FilmViewModel(@NonNull Application application) {
         super(application);
         db = AppFilmDatabase.getInstance(application);
         films = db.filmDao().getAllFilms();
+        errors = new MutableLiveData<>();
     }
 
     public LiveData<List<Film>> getFilms() {
         return films;
+    }
+
+    public LiveData<Throwable> getErrors() {
+        return errors;
+    }
+
+    public void clearErrors(){
+        errors.setValue(null);
     }
 
     @SuppressWarnings("unchecked")
@@ -84,6 +93,7 @@ public class FilmViewModel extends AndroidViewModel {
                 }, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
+//                        errors.setValue(throwable);
                     }
                 });
         compositeDisposable.add(disposable);
