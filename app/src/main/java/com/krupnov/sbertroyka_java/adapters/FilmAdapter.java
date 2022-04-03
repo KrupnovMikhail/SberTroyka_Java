@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,12 +50,18 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmViewHolder
 
 
 
-    class FilmViewHolder extends RecyclerView.ViewHolder {
+    class FilmViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView textViewFilmName;
         private TextView textViewDirectorName;
         private TextView textViewProducerName;
         private TextView textViewReleaseDate;
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            Toast.makeText(view.getContext(), "КУКАРАЧА " + position, Toast.LENGTH_SHORT).show();
+        }
 
         public FilmViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,6 +69,9 @@ public class FilmAdapter extends RecyclerView.Adapter<FilmAdapter.FilmViewHolder
             textViewDirectorName = itemView.findViewById(R.id.textViewDirectorName);
             textViewProducerName = itemView.findViewById(R.id.textViewProducerName);
             textViewReleaseDate = itemView.findViewById(R.id.textViewReleaseDate);
+            itemView.setOnClickListener(this);
         }
+
+
     }
 }
