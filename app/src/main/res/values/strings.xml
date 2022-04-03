@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">SberTroyka_Java</string>
+    <string name="film_label">Название фильма:</string>
+    <string name="director_label">Режиссер:</string>
+    <string name="producer_label">Продюсер:</string>
+    <string name="release_label">Дата выхода:</string>
 </resources>
