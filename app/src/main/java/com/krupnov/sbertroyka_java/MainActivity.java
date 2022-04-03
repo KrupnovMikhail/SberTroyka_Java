@@ -1,6 +1,8 @@
 package com.krupnov.sbertroyka_java;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +14,7 @@ import com.krupnov.sbertroyka_java.api.ApiFactory;
 import com.krupnov.sbertroyka_java.api.ApiService;
 import com.krupnov.sbertroyka_java.pojo.Film;
 import com.krupnov.sbertroyka_java.pojo.FilmResponse;
+import com.krupnov.sbertroyka_java.screens.films.FilmViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,9 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewFilms;
     private FilmAdapter filmAdapter;
+    private FilmViewModel viewModel;
 
-    private Disposable disposable;
-    private CompositeDisposable compositeDisposable;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,35 +40,19 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerViewFilms = findViewById(R.id.recyclerViewFilms);
         filmAdapter = new FilmAdapter();
-        filmAdapter.setFilms(new ArrayList<>());
+        filmAdapter.setFilms(new ArrayList<Film>());
         recyclerViewFilms.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewFilms.setAdapter(filmAdapter);
+        viewModel = ViewModelProviders.of(this).get(FilmViewModel.class);
+        viewModel.getFilms().observe(this, new Observer<List<Film>>() {
+            @Override
+            public void onChanged(List<Film> films) {
+                filmAdapter.setFilms(films);
+            }
+        });
 
-        ApiFactory apiFactory = ApiFactory.getInstance();
-        ApiService apiService = apiFactory.getApiService();
-        compositeDisposable = new CompositeDisposable();
-        disposable = apiService.getFilms()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<FilmResponse>() {
-                    @Override
-                    public void accept(FilmResponse filmResponse) throws Exception {
-                        filmAdapter.setFilms(filmResponse.getResults());
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        Toast.makeText(MainActivity.this, "Ошибка получения данных", Toast.LENGTH_SHORT).show();
-                    }
-                });
-        compositeDisposable.add(disposable);
+        viewModel.loadData();
     }
 
-    @Override
-    protected void onDestroy() {
-        if (compositeDisposable != null) {
-            compositeDisposable.dispose();
-        }
-        super.onDestroy();
-    }
+
 }

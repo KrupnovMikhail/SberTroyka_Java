@@ -1,11 +1,16 @@
 package com.krupnov.sbertroyka_java.pojo;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
-
+@Entity(tableName = "films")
 public class Film {
+    @PrimaryKey(autoGenerate = true)
+    private int id;
     @SerializedName("title")
     @Expose
     private String title;
@@ -24,21 +29,21 @@ public class Film {
     @SerializedName("release_date")
     @Expose
     private String releaseDate;
-    @SerializedName("characters")
-    @Expose
-    private List<String> characters = null;
-    @SerializedName("planets")
-    @Expose
-    private List<String> planets = null;
-    @SerializedName("starships")
-    @Expose
-    private List<String> starships = null;
-    @SerializedName("vehicles")
-    @Expose
-    private List<String> vehicles = null;
-    @SerializedName("species")
-    @Expose
-    private List<String> species = null;
+//    @SerializedName("characters")
+//    @Expose
+//    private List<String> characters = null;
+//    @SerializedName("planets")
+//    @Expose
+//    private List<String> planets = null;
+//    @SerializedName("starships")
+//    @Expose
+//    private List<String> starships = null;
+//    @SerializedName("vehicles")
+//    @Expose
+//    private List<String> vehicles = null;
+//    @SerializedName("species")
+//    @Expose
+//    private List<String> species = null;
     @SerializedName("created")
     @Expose
     private String created;
@@ -48,6 +53,14 @@ public class Film {
     @SerializedName("url")
     @Expose
     private String url;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -97,45 +110,45 @@ public class Film {
         this.releaseDate = releaseDate;
     }
 
-    public List<String> getCharacters() {
-        return characters;
-    }
-
-    public void setCharacters(List<String> characters) {
-        this.characters = characters;
-    }
-
-    public List<String> getPlanets() {
-        return planets;
-    }
-
-    public void setPlanets(List<String> planets) {
-        this.planets = planets;
-    }
-
-    public List<String> getStarships() {
-        return starships;
-    }
-
-    public void setStarships(List<String> starships) {
-        this.starships = starships;
-    }
-
-    public List<String> getVehicles() {
-        return vehicles;
-    }
-
-    public void setVehicles(List<String> vehicles) {
-        this.vehicles = vehicles;
-    }
-
-    public List<String> getSpecies() {
-        return species;
-    }
-
-    public void setSpecies(List<String> species) {
-        this.species = species;
-    }
+//    public List<String> getCharacters() {
+//        return characters;
+//    }
+//
+//    public void setCharacters(List<String> characters) {
+//        this.characters = characters;
+//    }
+//
+//    public List<String> getPlanets() {
+//        return planets;
+//    }
+//
+//    public void setPlanets(List<String> planets) {
+//        this.planets = planets;
+//    }
+//
+//    public List<String> getStarships() {
+//        return starships;
+//    }
+//
+//    public void setStarships(List<String> starships) {
+//        this.starships = starships;
+//    }
+//
+//    public List<String> getVehicles() {
+//        return vehicles;
+//    }
+//
+//    public void setVehicles(List<String> vehicles) {
+//        this.vehicles = vehicles;
+//    }
+//
+//    public List<String> getSpecies() {
+//        return species;
+//    }
+//
+//    public void setSpecies(List<String> species) {
+//        this.species = species;
+//    }
 
     public String getCreated() {
         return created;
